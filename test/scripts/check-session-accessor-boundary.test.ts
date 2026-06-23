@@ -30,6 +30,7 @@ describe("session accessor boundary guard", () => {
         "src/agents/embedded-agent-runner/tool-result-truncation.ts",
         "src/agents/embedded-agent-runner/transcript-rewrite.ts",
         "src/agents/embedded-agent-runner/transcript-runtime-state.ts",
+        "src/agents/live-model-switch.ts",
         "src/agents/subagent-control.ts",
         "src/agents/subagent-registry-helpers.ts",
         "src/auto-reply/reply/agent-runner-helpers.ts",
