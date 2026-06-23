@@ -5,22 +5,27 @@ import { applyAbortCutoffToSessionEntry, type AbortCutoff } from "./abort-cutoff
 import type { CommandHandler } from "./commands-types.js";
 
 type CommandParams = Parameters<CommandHandler>[0];
+type PersistSessionEntryParams = Pick<
+  CommandParams,
+  "sessionEntry" | "sessionStore" | "sessionKey" | "storePath"
+>;
 
-export async function persistSessionEntry(params: CommandParams): Promise<boolean> {
+export async function persistSessionEntry(params: PersistSessionEntryParams): Promise<boolean> {
   if (!params.sessionEntry || !params.sessionStore || !params.sessionKey) {
     return false;
   }
-  params.sessionEntry.updatedAt = Date.now();
-  params.sessionStore[params.sessionKey] = params.sessionEntry;
+  const sessionEntry = params.sessionEntry;
+  sessionEntry.updatedAt = Date.now();
+  params.sessionStore[params.sessionKey] = sessionEntry;
   if (params.storePath) {
     // Slash commands mutate one known session entry; skipping global session
     // maintenance avoids scanning the whole sessions directory for simple
     // command-only writes.
     await patchSessionEntry(
       { storePath: params.storePath, sessionKey: params.sessionKey },
-      () => params.sessionEntry as SessionEntry,
+      () => sessionEntry,
       {
-        fallbackEntry: params.sessionEntry as SessionEntry,
+        fallbackEntry: sessionEntry,
         replaceEntry: true,
         skipMaintenance: true,
       },
