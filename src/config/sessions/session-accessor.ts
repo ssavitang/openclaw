@@ -327,6 +327,8 @@ export type SessionEntryPatchOptions = {
   preserveActivity?: boolean;
   /** Replace the whole entry instead of merging the returned patch. */
   replaceEntry?: boolean;
+  /** Skip prune/cap/rotation maintenance for specialized internal updates. */
+  skipMaintenance?: boolean;
 };
 
 export type SessionEntryPatchContext = {
@@ -510,6 +512,7 @@ export async function patchSessionEntry(
     maintenanceConfig: options.maintenanceConfig,
     preserveActivity: options.preserveActivity,
     replaceEntry: options.replaceEntry,
+    skipMaintenance: options.skipMaintenance,
     update,
   });
 }

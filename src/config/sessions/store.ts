@@ -1764,6 +1764,7 @@ export async function patchSessionEntry(
     fallbackEntry?: SessionEntry;
     preserveActivity?: boolean;
     replaceEntry?: boolean;
+    skipMaintenance?: boolean;
     update: (
       entry: SessionEntry,
       context: { existingEntry?: SessionEntry },
@@ -1795,6 +1796,7 @@ export async function patchSessionEntry(
       resolved,
       next,
       maintenanceConfig: params.maintenanceConfig,
+      skipMaintenance: params.skipMaintenance,
       takeCacheOwnership: true,
       returnDetached: true,
     });
